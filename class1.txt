@@ -1,0 +1,342 @@
+
+
+
+6.Project Name : submenu
+
+package com.example.submenu;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
+		switch(item.getItemId())
+		{
+		case R.id.item1:
+			Toast.makeText(MainActivity.this,"Creating Database", Toast.LENGTH_LONG).show();
+			break;
+		case R.id.item3:
+			Toast.makeText(MainActivity.this,"Searching on Author...", Toast.LENGTH_LONG).show();
+			break;
+		case R.id.item4:
+			Toast.makeText(MainActivity.this,"Searching on Title...", Toast.LENGTH_LONG).show();
+			break;
+		case R.id.item5:
+			Toast.makeText(MainActivity.this,"Searching on Price...", Toast.LENGTH_LONG).show();
+			break;
+		}
+		return true;
+	}
+
+}
+
+
+----------------------------------------------------------------------------------------------------------------
+7. Project Name : contextmenu
+
+Right-click on res\menu in the resource editor. Select "New" from the shortcut menu. Select "Android XML File"  and enter the name mycontext_menu.
+Add two items with the name "MCA" and "MBA",
+
+package com.example.contextmenu;
+
+import android.os.Bundle;
+import android.app.Activity;
+import android.view.ContextMenu;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class MainActivity extends Activity {
+    TextView tv;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		tv=(TextView)findViewById(R.id.textView1);
+		registerForContextMenu(tv);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	
+    @Override
+    
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo)
+    {
+    	super.onCreateContextMenu(menu, v, menuInfo);
+    	MenuInflater inflater = getMenuInflater();
+    	inflater.inflate(R.menu.mycontext_menu, menu);
+    	menu.setHeaderTitle("Course Menu");
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item)
+    {
+    	switch(item.getItemId())
+    	{
+    	case R.id.item1:
+    		tv.setText("MCA");
+    		break;
+    	case R.id.item2:
+    		tv.setText("MBA");
+    		break;
+    	}
+    	return true;
+    }
+}
+
+---------------------------------------------------------------------------------------------------------------
+Poject Name : textwatcher
+
+package com.example.textwatcher1;
+
+import android.app.Activity;
+import android.graphics.Color;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Menu;
+import android.widget.EditText;
+import android.widget.TextView;
+
+public class MainActivity extends Activity implements TextWatcher{
+    EditText e;
+    TextView txtCount;
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.activity_main);
+		e=(EditText)findViewById(R.id.editText1);
+		txtCount=(TextView)findViewById(R.id.textView1);
+		e.addTextChangedListener(this);
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+
+	public void afterTextChanged(Editable t)
+	{
+		int count=10-e.length();
+		try
+		{
+		txtCount.setText(String.valueOf(count));
+		txtCount.setTextColor(Color.GREEN);
+		if (count < 5)
+			txtCount.setTextColor(Color.YELLOW);
+		if (count < 0)
+			txtCount.setTextColor(Color.RED);
+		}
+		catch (NumberFormatException e)
+		{
+		}		
+	}
+	
+	public void beforeTextChanged(CharSequence s,int start,int count, int after)
+	{	
+	}
+	
+	public void onTextChanged(CharSequence s,int start,int before, int count)
+	{
+		
+	}
+}
+
+
+
+				activity_main.xml
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <EditText
+        android:id="@+id/editText1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="34dp"
+        android:layout_marginTop="40dp"
+        android:ems="10"
+        android:textSize="@dimen/activity_horizontal_margin" >
+
+        <requestFocus />
+    </EditText>
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/editText1"
+        android:layout_below="@+id/editText1"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="87dp"
+        android:textSize="@dimen/activity_horizontal_margin" />
+
+</RelativeLayout>
+
+-----------------
+
+
+package com.example.textwatcher;
+
+import android.os.Bundle;
+import android.widget.*;
+import android.app.Activity;
+import android.text.Editable;
+import android.view.Menu;
+import android.text.*;
+
+public class MainActivity extends Activity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        EditText percentage=(EditText)findViewById(R.id.percentage);
+        percentage.addTextChangedListener(new CheckPercentage());
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    
+}
+
+class CheckPercentage implements TextWatcher
+{
+   @Override
+   public void afterTextChanged(Editable s)
+   {
+	   try
+	   {
+		   if (Integer.parseInt(s.toString())>100)
+		   {
+			   s.replace(0, s.length(), "100");
+		   }
+	   }
+	   catch(NumberFormatException e)
+	   {
+		   
+	   }
+   }
+   @Override
+   public void beforeTextChanged(CharSequence s, int start, int count, int after)
+   {
+	   
+   }
+   @Override
+   public void onTextChanged(CharSequence s, int start, int count, int after)
+   {
+	   
+   }
+}
+
+
+					activity_main.xml
+
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity" >
+
+    <EditText
+        android:id="@+id/percentage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="31dp"
+        android:layout_marginTop="44dp"
+        android:ems="10" />
+
+    <TextView
+
+
+
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/percentage"
+        android:layout_below="@+id/percentage"
+        android:layout_marginLeft="22dp"
+        android:layout_marginTop="144dp"
+        android:text="Percentage Cannot Exceed 100"
+        android:textColor="#ff0000" />
+
+</RelativeLayout>
+
+
+
+------------------------------------------------------------------
+
+				Displaying Background Image
+
+
+Create a folder with the name 'drawable' under 'res' folder.
+ 
+
+Copy background.png file to 'drawable' folder.
+
+Set the 'Background' property of the layout @drawable/background
+
+
+
+----------------------------------------------------------
+
+
+Adding Image to a Button Control
+
+Place an instance of button control on the layout.
+
+In the  'Content Description' category, set the 'Drawable left' property to @drawable/ic_launcher.
+
+--------------------------------------------------------
+
